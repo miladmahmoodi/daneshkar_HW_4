@@ -1,37 +1,4 @@
-"""
-
-"""
-
-from dataclasses import dataclass
 from getpass import getpass
-
-
-@dataclass()
-class User:
-    """
-
-    """
-    username = str
-    phone_number = int, None
-    __password = str
-    id = ...
-
-    @property
-    def password(self):
-        """
-
-        :return:
-        """
-        return self.__password
-
-    @password.setter
-    def password(self, new_pass):
-        """
-
-        :param new_pass:
-        :return:
-        """
-        self.__password = new_pass
 
 
 def main():
@@ -79,13 +46,6 @@ def main():
                     case '4':
                         break
                         # logout
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
