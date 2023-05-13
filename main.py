@@ -1,7 +1,10 @@
+from user import User
+
+
 from getpass import getpass
 
 
-def user_register():
+def register():
     """
 
     :return:
@@ -12,26 +15,42 @@ def user_register():
     phone_number = input('phone_number: ')
     password = getpass('password: ')
 
-    # do some things for register.
+    profile = User.create_user(
+        username,
+        phone_number,
+        password,
+    )
+
+    print('User successfully created.')
 
 
-def user_profile():
+def user_profile(profile):
     """
     
     :return: 
     """
-    pass
+    print(User.__str__(profile))
 
 
-def update_user_profile():
+def update_profile(profile):
     """
     
     :return: 
     """
-    pass
+    print('Edit profile.')
+
+    username = input('username: ')
+    phone_number = input('phone_number: ')
+
+    User.profile_update(
+        profile,
+        username,
+        phone_number,
+    )
+    print('Edit profile successfully.')
 
 
-def change_user_password():
+def update_password(profile):
     """
 
     :return:
@@ -42,7 +61,11 @@ def change_user_password():
     new_password = getpass('New password: ')
     confirm_password = getpass('Confirm password: ')
 
-    # do something
+    if new_password != confirm_password:
+        raise Exception('password does`n match.')
+
+    User.password_update(profile.get('username'), new_password)
+    print('Success.')
 
 
 def logout():
@@ -54,7 +77,7 @@ def logout():
     pass
 
 
-def user_login():
+def login():
     """
 
     :return:
@@ -64,8 +87,11 @@ def user_login():
     username = input('username: ')
     password = getpass('password: ')
 
-    # if err
-    #     raise err
+    profile = User.login(
+        username,
+        password,
+    )
+    print(profile)
 
     print('1: Profile.  2: Edit profile.  3: Change password.  4: Logout.')
     
@@ -73,11 +99,11 @@ def user_login():
     
     match register_inp:
         case '1':
-            user_profile()
+            user_profile(profile)
         case '2':
-            update_user_profile()
+            update_profile(profile)
         case '3':
-            change_user_password()
+            update_password(profile)
         case '4':
             logout()
 
@@ -101,6 +127,5 @@ def main():
 
 
 if __name__ == '__main__':
-    print(
-        main()
-    )
+    main()
+
