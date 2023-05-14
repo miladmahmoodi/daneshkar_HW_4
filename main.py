@@ -4,45 +4,38 @@ from user import User
 from getpass import getpass
 
 
-def register():
+def sign_up():
     """
 
     :return:
     """
+    print(User.profiles)
 
-    print('Register.')
-    username = input('username: ')
-    phone_number = input('phone_number: ')
-    password = getpass('password: ')
+    print('-- Welcome to signup form. --')
+    username = input('Your username: ')
+    phone_number = input('Your phone number: ')
+    password = getpass('Your password: ')
 
-    profile = User.create_user(
+    profile = User.create(
         username,
         phone_number,
         password,
     )
 
-    print('User successfully created.')
-
-
-def user_profile(profile):
-    """
-    
-    :return: 
-    """
-    print(User.__str__(profile))
+    print(profile)
 
 
 def update_profile(profile):
     """
-    
-    :return: 
+
+    :return:
     """
-    print('Edit profile.')
+    print('-- Edit Profile. --')
 
-    username = input('username: ')
-    phone_number = input('phone_number: ')
+    username = input('New username: ')
+    phone_number = input('New phone number: ')
 
-    User.profile_update(
+    User.update(
         profile,
         username,
         phone_number,
@@ -56,56 +49,56 @@ def update_password(profile):
     :return:
     """
 
-    print('Change password.')
+    print('-- Change password --')
     old_password = getpass('Old password: ')
     new_password = getpass('New password: ')
     confirm_password = getpass('Confirm password: ')
 
-    if new_password != confirm_password:
-        raise Exception('password does`n match.')
+    User.update_password(
+        profile.get('username'),
+        new_password,
+        confirm_password
+    )
+    print('Password successfully updated.')
 
-    User.password_update(profile.get('username'), new_password)
-    print('Success.')
 
-
-def logout():
+def sign_in():
     """
 
     :return:
     """
+    print(User.profiles)
 
-    pass
+    print('-- Welcome to signin form. --')
+    username = input('Username: ')
+    password = getpass('Password: ')
 
-
-def login():
-    """
-
-    :return:
-    """
-
-    print('Login')
-    username = input('username: ')
-    password = getpass('password: ')
-
-    profile = User.login(
+    profile = User.sign_in(
         username,
         password,
     )
-    print(profile)
+    print(f"Welcome '{username}'")
 
-    print('1: Profile.  2: Edit profile.  3: Change password.  4: Logout.')
+    while True:
+        print('-- [1] Profile  [2] Edit profile [3] Change password [4] Logout --')
+        register_inp = input('Your choice is: ')
+        match register_inp:
+            case '1':
+                show_profile(profile)
+            case '2':
+                update_profile(profile)
+            case '3':
+                update_password(profile)
+            case '4':
+                break
+
+
+def show_profile(profile: User):
+    """
     
-    register_inp = input('Yor choice: ')
-    
-    match register_inp:
-        case '1':
-            user_profile(profile)
-        case '2':
-            update_profile(profile)
-        case '3':
-            update_password(profile)
-        case '4':
-            logout()
+    :return: 
+    """
+    print(profile)
 
 
 def main():
@@ -114,16 +107,16 @@ def main():
     :return:
     """
 
-    print('0: End process.  1: Register  2: Login.')
     while True:
-        inp = input('Enter your choices: ')
+        print('-- [0] End process  [1] Signup  [2] Signin --')
+        inp = input('Your choice is: ')
         match inp:
             case '0':
                 break
             case '1':
-                user_register()
+                sign_up()
             case '2':
-                user_login()
+                sign_in()
 
 
 if __name__ == '__main__':
