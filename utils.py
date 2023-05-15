@@ -99,7 +99,4 @@ class Utils:
         :return: True if the passwords match, False otherwise.
         """
 
-        if password == other:
-            return True
-        return False
-
+        return password == other
