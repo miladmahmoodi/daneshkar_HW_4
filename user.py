@@ -1,6 +1,7 @@
 """
 This module create for manage users.
 """
+import json
 import re
 
 from dataclasses import dataclass
@@ -51,7 +52,7 @@ class User(Utils):
         return username in User.profiles
 
     @classmethod
-    def create(cls, username: str, phone_number: str, password: str) -> 'User' | Exception:
+    def create(cls, username: str, phone_number: str, password: str) -> 'User':
         """
         Create a new user profile with the given username, phone_number, and password.
 
@@ -70,7 +71,6 @@ class User(Utils):
                 phone_number,
                 password
             )
-            print(User.profiles)
             return profile
 
         if not User.exists_user(username):
