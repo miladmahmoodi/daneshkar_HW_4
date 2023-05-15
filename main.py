@@ -1,6 +1,4 @@
 from user import User
-
-
 from getpass import getpass
 
 
@@ -9,20 +7,19 @@ def sign_up():
 
     :return:
     """
-    print(User.profiles)
 
     print('-- Welcome to signup form. --')
     username = input('Your username: ')
     phone_number = input('Your phone number: ')
     password = getpass('Your password: ')
 
-    profile = User.create(
+    status = User.create(
         username,
         phone_number,
         password,
     )
-
-    print(profile)
+    if status:
+        print(f"User '{username}' created successfully.")
 
 
 def update_profile(profile):
@@ -35,11 +32,13 @@ def update_profile(profile):
     username = input('New username: ')
     phone_number = input('New phone number: ')
 
-    User.update(
-        profile,
-        username,
-        phone_number,
-    )
+    profile.update(username, phone_number)
+
+    # User.update(
+    #     profile,
+    #     username,
+    #     phone_number,
+    # )
     print('Edit profile successfully.')
 
 
@@ -54,12 +53,22 @@ def update_password(profile):
     new_password = getpass('New password: ')
     confirm_password = getpass('Confirm password: ')
 
-    User.update_password(
-        profile.get('username'),
-        new_password,
-        confirm_password
-    )
+    profile.update_password(old_password, new_password, confirm_password)
+
+    # User.update_password(
+    #     profile.get('username'),
+    #     new_password,
+    #     confirm_password
+    # )
     print('Password successfully updated.')
+
+
+def show_profile(profile: User):
+    """
+
+    :return:
+    """
+    print(profile)
 
 
 def sign_in():
@@ -67,16 +76,22 @@ def sign_in():
 
     :return:
     """
-    print(User.profiles)
-
     print('-- Welcome to signin form. --')
     username = input('Username: ')
     password = getpass('Password: ')
 
-    profile = User.sign_in(
-        username,
-        password,
-    )
+    if not User.exists_user(username):
+        raise ValueError('username or password is wrong.')
+
+    profile = User.profiles.get(username)
+    # print(profile)
+    # print(type(profile))
+    profile.sign_in(password)
+
+    # profile = User.sign_in(
+    #     username,
+    #     password,
+    # )
     print(f"Welcome '{username}'")
 
     while True:
@@ -93,12 +108,6 @@ def sign_in():
                 break
 
 
-def show_profile(profile: User):
-    """
-    
-    :return: 
-    """
-    print(profile)
 
 
 def main():
