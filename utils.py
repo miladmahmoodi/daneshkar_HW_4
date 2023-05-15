@@ -7,9 +7,6 @@ import json, re
 from uuid import uuid4
 from hashlib import sha256
 
-# class MyExceptions(Exception):
-#     def
-
 
 class Utils:
     """
