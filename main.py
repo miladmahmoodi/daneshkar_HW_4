@@ -107,7 +107,7 @@ def sign_in() -> None:
 
     profile = User.profiles.get(username)
 
-    profile.sign_in(username, password)
+    profile.sign_in(password)
 
     print(f"Welcome '{username}'")
 
