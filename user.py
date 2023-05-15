@@ -1,8 +1,6 @@
 """
 This module create for manage users.
 """
-import json
-import re
 
 from dataclasses import dataclass
 from utils import Utils
@@ -13,7 +11,7 @@ from exceptions import *
 @dataclass
 class User(Utils):
     """
-    A class used to represent an User.
+    A class used to represent User.
     """
     profiles = {}
 
@@ -144,6 +142,3 @@ class User(Utils):
                f"Hi dear '{self.username}'. Hope you are well :)\n" \
                f"Your id is '{self.id}' and your phone number is '{self.phone_number}'\n" \
                f"----------------------------------------------------------------------"
-
-
-
