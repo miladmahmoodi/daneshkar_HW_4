@@ -19,7 +19,7 @@ class Utils:
         """
         if not Utils.is_valid_password(password):
             raise Exception('The password must contain uppercase and lowercase letters, numbers and special symbols'
-                            ' and must have at least 4 characters..')
+                            ' and must have at least 4 characters.')
         return Utils.hashing_password(password)
 
     @staticmethod
@@ -27,10 +27,10 @@ class Utils:
         """
 
         """
-        pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[a-zA-Z0-9\W]{4,}$'
-        if not re.match(pattern, password):
-            return False
-        return True
+        pattern = r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{4,}$"
+        if re.match(pattern, password):
+            return True
+        return False
 
     @staticmethod
     def hashing_password(password: str) -> str:
@@ -57,11 +57,11 @@ class Utils:
             )
 
     @staticmethod
-    def confirm_password(password: str, other: str) -> bool:
+    def match_password(password: str, other: str) -> bool:
         """
 
         """
-        if password != other:
-            return False
-        return True
+        if password == other:
+            return True
+        return False
 
