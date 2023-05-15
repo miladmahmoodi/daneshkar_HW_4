@@ -6,6 +6,8 @@ import re
 
 from dataclasses import dataclass
 from utils import Utils
+from typing import Union
+from exceptions import *
 
 
 @dataclass
@@ -52,7 +54,7 @@ class User(Utils):
         return username in User.profiles
 
     @classmethod
-    def create(cls, username: str, phone_number: str, password: str) -> 'User':
+    def create(cls, username: str, phone_number: str, password: str) -> Union['User', Exception]:
         """
         Create a new user profile with the given username, phone_number, and password.
 
@@ -63,7 +65,7 @@ class User(Utils):
         """
 
         if User.exists_user(username):
-            raise Exception('This username already exists.')
+            raise ExistsUserError('This username already exists.')
 
         if Utils.check_password(password):
             profile = cls(
@@ -88,7 +90,7 @@ class User(Utils):
         password = Utils.hashing_password(password)
 
         if self.password != password:
-            raise ValueError('username or password is wrong.')
+            raise SigninError('username or password is wrong.')
 
         return self
 
@@ -102,7 +104,7 @@ class User(Utils):
         :raises ValueError: If the given username already exists.
         """
         if User.exists_user(username):
-            raise ValueError('This username already exists.')
+            raise ExistsUserError('This username already exists.')
 
         self.username = username
         self.phone_number = phone_number
@@ -123,10 +125,10 @@ class User(Utils):
         old_password = Utils.hashing_password(old_password)
 
         if self.password != old_password:
-            raise ValueError('Wrong password!')
+            raise PasswordError('Wrong password!')
 
         if not Utils.match_password(new_password, confirm_password):
-            raise Exception('Password does`n match.')
+            raise ConfirmPasswordError('Password does`n match.')
 
         self.password = new_password
 
