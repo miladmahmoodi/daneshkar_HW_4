@@ -21,8 +21,6 @@ class User(Utils):
         self.phone_number = phone_number
         self.__password = Utils.check_password(password)
 
-        type(self).profiles[self.username] = self
-
     @property
     def password(self) -> str:
         """
@@ -39,6 +37,14 @@ class User(Utils):
         """
 
         self.__password = self.check_password(password)
+
+    def save(self) -> None:
+        """
+        Saves the user profile to the class variable `User.profiles` under the username key.
+
+        :return: None
+        """
+        User.profiles[self.username] = self
 
     @staticmethod
     def exists_user(username: str) -> bool:
@@ -65,16 +71,20 @@ class User(Utils):
         if User.exists_user(username):
             raise ExistsUserError('This username already exists.')
 
-        if Utils.check_password(password):
-            profile = cls(
-                username,
-                phone_number,
-                password
-            )
-            return profile
+        if not Utils.check_password(password):
+            raise PasswordError('Wrong password!')
+
+        profile = cls(
+            username,
+            phone_number,
+            password=password
+        )
+        profile.save()
 
         if not User.exists_user(username):
             return Exception('Somethings was wrong.')
+
+        return profile
 
     def sign_in(self, password: str) -> 'User':
         """
@@ -101,13 +111,21 @@ class User(Utils):
         :return: The instance of User.
         :raises ValueError: If the given username already exists.
         """
+
         if User.exists_user(username):
             raise ExistsUserError('This username already exists.')
+
+        old_username = self.username
 
         self.username = username
         self.phone_number = phone_number
 
-        return self
+        updated_profile = self
+        del User.profiles[old_username]
+
+        updated_profile.save()
+
+        return updated_profile
 
     def update_password(self, old_password: str, new_password: str, confirm_password: str) -> 'User':
         """
