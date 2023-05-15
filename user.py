@@ -48,9 +48,7 @@ class User(Utils):
         :return: True if the username exists in the profiles list, False otherwise.
         """
 
-        if username in User.profiles:
-            return True
-        return False
+        return username in User.profiles
 
     @classmethod
     def create(cls, username: str, phone_number: str, password: str) -> 'User' | Exception:
