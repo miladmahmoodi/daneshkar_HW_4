@@ -76,20 +76,6 @@ class Utils:
         return hash_pass
 
     @staticmethod
-    def save_data(data: list) -> None:
-        """
-        Saves the given data to a JSON file named 'database.json'.
-
-        :param data: A list representing the data to be saved.
-        :return: None.
-        """
-
-        with open('database.json', 'a', encoding='utf-8') as file:
-            json.dumps(
-                data
-            )
-
-    @staticmethod
     def match_password(password: str, other: str) -> bool:
         """
         Check whether the given password and other match or not.
