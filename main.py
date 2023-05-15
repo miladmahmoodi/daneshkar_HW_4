@@ -1,11 +1,20 @@
+"""
+This module use for User module menu.
+"""
+
 from user import User
 from getpass import getpass
 
 
-def sign_up():
+def sign_up() -> None:
     """
+    Display a form for signing up a new user.
 
-    :return:
+    The function prompts the user to enter their username, phone number, and password.
+    Once the information is provided, the function calls the 'create' method of the 'User' class to create a new user.
+    If the user is created successfully, a message is printed to the console.
+
+    :return: None.
     """
 
     print('-- Welcome to signup form. --')
@@ -22,10 +31,14 @@ def sign_up():
         print(f"User '{username}' created successfully.")
 
 
-def update_profile(profile):
+def update_profile(profile: User) -> None:
     """
+    Update the user profile.
 
-    :return:
+    The function updates the user profile using the given 'profile' object.
+
+    :param profile: A User object representing the user profile to be updated.
+    :return: None.
     """
     print('-- Edit Profile. --')
 
@@ -37,10 +50,17 @@ def update_profile(profile):
     print('Edit profile successfully.')
 
 
-def update_password(profile):
+def update_password(profile: User) -> None:
     """
+    Display a form for updating the user password.
 
-    :return:
+    The function prompts the user to enter their old password and new password.
+    Once the information is provided, the function calls the 'update_password' method of the given 'profile' object to
+    update the user password.
+    If the password is updated successfully, a message is printed to the console.
+
+    :param profile: A User object representing the user profile whose password needs to be updated.
+    :return: None.
     """
 
     print('-- Change password --')
@@ -53,19 +73,30 @@ def update_password(profile):
     print('Password successfully updated.')
 
 
-def show_profile(profile: User):
+def show_profile(profile: User) -> None:
     """
+    Display the user profile.
 
-    :return:
+    The function displays the user profile information, including the username, phone number, and email address.
+
+    :param profile: A User object representing the user profile to be displayed.
+    :return: None.
     """
     print(profile)
 
 
-def sign_in():
+def sign_in() -> None:
+    """
+    Display a form for user sign-in.
+
+    The function prompts the user to enter their username and password.
+    If the username and password are correct, the function displays a menu with options to view the user profile, edit
+    the user profile, change the user password, or logout.
+    If the username or password is incorrect, the function raises a ValueError.
+
+    :return: None.
     """
 
-    :return:
-    """
     print('-- Welcome to signin form. --')
     username = input('Username: ')
     password = getpass('Password: ')
@@ -93,10 +124,15 @@ def sign_in():
                 break
 
 
-def main():
+def main() -> None:
     """
+    Display the main menu.
 
-    :return:
+    The function displays a menu with options to end the process, sign up, or sign in.
+    If the user selects sign up, the function calls the 'sign_up' function to register a new user.
+    If the user selects sign in, the function calls the 'sign_in' function to authenticate the user.
+
+    :return: None.
     """
 
     while True:
