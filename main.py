@@ -3,6 +3,7 @@ This module use for User module menu.
 """
 
 from user import User
+from exceptions import SigninError
 from getpass import getpass
 
 
@@ -102,11 +103,11 @@ def sign_in() -> None:
     password = getpass('Password: ')
 
     if not User.exists_user(username):
-        raise ValueError('username or password is wrong.')
+        raise SigninError('username or password is wrong.')
 
     profile = User.profiles.get(username)
 
-    profile.sign_in(password)
+    profile.sign_in(username, password)
 
     print(f"Welcome '{username}'")
 
