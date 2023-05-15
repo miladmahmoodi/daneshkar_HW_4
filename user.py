@@ -1,5 +1,5 @@
 """
-
+This module create for manage users.
 """
 import re
 
@@ -10,11 +10,11 @@ from utils import Utils
 @dataclass
 class User(Utils):
     """
-
+    A class used to represent an User.
     """
     profiles = {}
 
-    def __init__(self, username, phone_number, password):
+    def __init__(self, username: str, phone_number: str, password: str):
         self.id = Utils.id_generator()
         self.username = username
         self.phone_number = phone_number
@@ -24,29 +24,43 @@ class User(Utils):
 
     @property
     def password(self) -> str:
+        """
+        This function is password getter because password is a private variable.
+        """
         return self.__password
 
     @password.setter
-    def password(self, password: str):
+    def password(self, password: str) -> None:
+        """
+        Get the password of the user.
+
+        :return: A string representing the password.
         """
 
-        """
         self.__password = self.check_password(password)
 
     @staticmethod
-    def exists_user(username) -> bool:
+    def exists_user(username: str) -> bool:
+        """
+        Check whether the given username exists in the profiles list.
+
+        :param username: A string representing the username to be checked.
+        :return: True if the username exists in the profiles list, False otherwise.
         """
 
-        """
         if username in User.profiles:
             return True
         return False
 
     @classmethod
-    def create(cls, username: str, phone_number: str, password: str):
+    def create(cls, username: str, phone_number: str, password: str) -> 'User' | Exception:
         """
+        Create a new user profile with the given username, phone_number, and password.
 
-        :return:
+        :param username: A string representing the username.
+        :param phone_number: A string representing the phone number.
+        :param password: A string representing the password.
+        :return: If the input is valid, return a new instance of User. Otherwise, return an Exception object.
         """
 
         if User.exists_user(username):
@@ -64,9 +78,13 @@ class User(Utils):
         if not User.exists_user(username):
             return Exception('Somethings was wrong.')
 
-    def sign_in(self, password):
+    def sign_in(self, password: str) -> 'User':
         """
+        Sign in the user with the given password.
 
+        :param password: A string representing the password of the user.
+        :return: The instance of User.
+        :raises ValueError: If the given password is wrong.
         """
 
         password = Utils.hashing_password(password)
@@ -76,9 +94,14 @@ class User(Utils):
 
         return self
 
-    def update(self, username: str, phone_number: str):
+    def update(self, username: str, phone_number: str) -> 'User':
         """
+        Update the username and phone number of the user.
 
+        :param username: A string representing the new username.
+        :param phone_number: A string representing the new phone number.
+        :return: The instance of User.
+        :raises ValueError: If the given username already exists.
         """
         if User.exists_user(username):
             raise ValueError('This username already exists.')
@@ -88,8 +111,17 @@ class User(Utils):
 
         return self
 
-    def update_password(self, old_password, new_password, confirm_password):
+    def update_password(self, old_password: str, new_password: str, confirm_password: str) -> 'User':
+        """
+        Update the password of the user.
 
+        :param old_password: A string representing the old password.
+        :param new_password: A string representing the new password.
+        :param confirm_password: A string representing the new password confirmation.
+        :return: The instance of User.
+        :raises ValueError: If the given old password is wrong.
+        :raises Exception: If the new password doesn't match the confirmation.
+        """
         old_password = Utils.hashing_password(old_password)
 
         if self.password != old_password:
@@ -98,12 +130,16 @@ class User(Utils):
         if not Utils.match_password(new_password, confirm_password):
             raise Exception('Password does`n match.')
 
-
         self.password = new_password
 
         return self
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return the string representation of the User object.
+
+        :return: A string representing the User object.
+        """
         return f"----------------------------------------------------------------------\n" \
                f"Hi dear '{self.username}'. Hope you are well :)\n" \
                f"Your id is '{self.id}' and your phone number is '{self.phone_number}'\n" \
