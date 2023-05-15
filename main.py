@@ -34,11 +34,6 @@ def update_profile(profile):
 
     profile.update(username, phone_number)
 
-    # User.update(
-    #     profile,
-    #     username,
-    #     phone_number,
-    # )
     print('Edit profile successfully.')
 
 
@@ -55,11 +50,6 @@ def update_password(profile):
 
     profile.update_password(old_password, new_password, confirm_password)
 
-    # User.update_password(
-    #     profile.get('username'),
-    #     new_password,
-    #     confirm_password
-    # )
     print('Password successfully updated.')
 
 
@@ -84,14 +74,9 @@ def sign_in():
         raise ValueError('username or password is wrong.')
 
     profile = User.profiles.get(username)
-    # print(profile)
-    # print(type(profile))
+
     profile.sign_in(password)
 
-    # profile = User.sign_in(
-    #     username,
-    #     password,
-    # )
     print(f"Welcome '{username}'")
 
     while True:
@@ -106,8 +91,6 @@ def sign_in():
                 update_password(profile)
             case '4':
                 break
-
-
 
 
 def main():
