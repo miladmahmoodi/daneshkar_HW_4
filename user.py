@@ -20,12 +20,7 @@ class User(Utils):
         self.phone_number = phone_number
         self.__password = Utils.check_password(password)
 
-        type(self).profiles[self.username] = {
-            'id': self.id,
-            'username': self.username,
-            'phone_number': self.phone_number,
-            'password': self.password
-        }
+        type(self).profiles[self.username] = self
 
     @property
     def password(self) -> str:
@@ -58,67 +53,61 @@ class User(Utils):
             raise Exception('This username already exists.')
 
         if Utils.check_password(password):
-            cls(
+            profile = cls(
                 username,
                 phone_number,
                 password
             )
+            print(User.profiles)
+            return profile
 
-        if User.exists_user(username):
-            return f"Profile of '{username}' successfully created."
-
-        return Exception('Somethings was wrong.')
-
-    @staticmethod
-    def sign_in(username, password):
-        """
-
-        """
         if not User.exists_user(username):
-            raise ValueError('username or password is wrong.')
+            return Exception('Somethings was wrong.')
 
-        profile = User.profiles.get(username)
+    def sign_in(self, password):
+        """
+
+        """
+
         password = Utils.hashing_password(password)
 
-        if profile['password'] != password:
+        if self.password != password:
             raise ValueError('username or password is wrong.')
 
-        return profile
+        return self
 
-    @staticmethod
-    def update(profile, username: str, phone_number: str):
+    def update(self, username: str, phone_number: str):
         """
 
         """
         if User.exists_user(username):
             raise ValueError('This username already exists.')
 
-        user_id = profile['id']
-        old_username = profile['username']
-        password = profile['password']
+        self.username = username
+        self.phone_number = phone_number
 
-        update_profile = User.profiles[username] = {
-            'id': user_id,
-            'username': username,
-            'phone_number': phone_number,
-            'password': password,
-        }
-        User.profiles.pop(old_username)
+        return self
 
-        return update_profile
+    def update_password(self, old_password, new_password, confirm_password):
 
-    @staticmethod
-    def update_password(username, new_password, confirm_password):
-        if not Utils.confirm_password(new_password, confirm_password):
+        old_password = Utils.hashing_password(old_password)
+
+        if self.password != old_password:
+            raise ValueError('Wrong password!')
+
+        if not Utils.match_password(new_password, confirm_password):
             raise Exception('Password does`n match.')
 
-        password = Utils.check_password(new_password)
-        print(Utils.hashing_password(new_password))
-        profile = User.profiles.get(username)
-        profile['password'] = password
+
+        self.password = new_password
+
+        return self
 
     def __str__(self):
-        return self.profiles
+        return f"----------------------------------------------------------------------\n" \
+               f"Hi dear '{self.username}'. Hope you are well :)\n" \
+               f"Your id is '{self.id}' and your phone number is '{self.phone_number}'\n" \
+               f"----------------------------------------------------------------------"
 
 
 
