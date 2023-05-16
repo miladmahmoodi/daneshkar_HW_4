@@ -148,6 +148,10 @@ class User(Utils):
         if self.__password != old_password:
             raise PasswordError('Wrong password!')
 
+        if not Utils.is_valid_password(new_password):
+            raise PasswordError('The password must contain uppercase and lowercase letters, numbers and special symbols'
+                                ' and must have at least 4 characters.')
+
         if not Utils.match_password(new_password, confirm_password):
             raise ConfirmPasswordError('Password does`n match.')
 
