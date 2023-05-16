@@ -3,11 +3,11 @@ This module use for User module menu.
 """
 
 from user import User
-from exceptions import SigninError
+from exceptions import *
 from getpass import getpass
 
 
-def sign_up() -> None:
+def sign_up():
     """
     Display a form for signing up a new user.
 
@@ -15,7 +15,7 @@ def sign_up() -> None:
     Once the information is provided, the function calls the 'create' method of the 'User' class to create a new user.
     If the user is created successfully, a message is printed to the console.
 
-    :return: None.
+    :return: Success message or Error message.
     """
 
     print('-- Welcome to signup form. --')
@@ -23,12 +23,17 @@ def sign_up() -> None:
     phone_number = input('Your phone number: ')
     password = getpass('Your password: ')
 
-    status = User.create(
-        username,
-        phone_number,
-        password,
-    )
-    if status:
+    try:
+        User.create(
+            username,
+            phone_number,
+            password,
+        )
+    except ExistsUserError as err:
+        print(err)
+    except PasswordError as err:
+        print(err)
+    else:
         print(f"User '{username}' created successfully.")
 
 
@@ -41,51 +46,42 @@ def update_username(profile: 'User') -> 'User':
     :param profile: A User object representing the user profile to be updated.
     :return: The instance of User.
     """
-    while True:
-        print('-- [0] Cancel [1] Edit username --')
-        choice = input('Your Choice: ')
-
-        match choice:
-            case '0':
-                break
-            case '1':
-                print('-- Edit username --')
-                new_username = input('New username: ')
-                if profile.username != new_username and not User.exists_user(new_username):
-                    profile.update_username(
-                        new_username,
-                    )
-                    print('Username updated successfully.')
-                break
+    print('-- Edit username --')
+    new_username = input('New username: ')
+    if profile.username != new_username:
+        try:
+            profile.update_username(
+                new_username,
+            )
+        except ExistsUserError as err:
+            print(err)
+        else:
+            print('Username updated successfully.')
+    else:
+        print('You don`t change your username.')
 
     return profile
 
 
 def update_phone_number(profile: 'User') -> 'User':
     """
-        Update the user phone number.
+    Update the user phone number.
 
-        The function updates the user phone number using the given 'profile' object.
+    The function updates the user phone number using the given 'profile' object.
 
-        :param profile: A User object representing the user profile to be updated.
-        :return: The instance of User.
-        """
-    while True:
-        print('-- [0] Cancel [1] Edit phone number --')
-        choice = input('Your Choice: ')
+    :param profile: A User object representing the user profile to be updated.
+    :return: The instance of User.
+    """
 
-        match choice:
-            case '0':
-                break
-            case '1':
-                print('-- Edit phone number --')
-                new_phone_number = input('New phone number: ')
-                if profile.phone_number != new_phone_number:
-                    profile.update_phone_number(
-                        new_phone_number,
-                    )
-                    print('phone number updated successfully.')
-                break
+    print('-- Edit phone number --')
+    new_phone_number = input('New phone number: ')
+    if profile.phone_number != new_phone_number:
+        profile.update_phone_number(
+            new_phone_number,
+        )
+        print('phone number updated successfully.')
+    else:
+        print('You don`t change your phone number.')
 
     return profile
 
@@ -99,7 +95,6 @@ def update_profile(profile: User) -> None:
     :param profile: A User object representing the user profile to be updated.
     :return: None.
     """
-    # print('-- Edit Profile. --')
     while True:
         print('-- [0] Cancel [1] Edit username  [2] Edit phone number --')
         edit_inp = input('Your choice is: ')
@@ -109,17 +104,8 @@ def update_profile(profile: User) -> None:
                 break
             case '1':
                 update_username(profile)
-                # break
             case '2':
                 update_phone_number(profile)
-                # break
-
-    # username = input('New username: ')
-    # phone_number = input('New phone number: ')
-    #
-    # profile.update(username, phone_number)
-    #
-    # print('Edit profile successfully.')
 
 
 def update_password(profile: User) -> None:
@@ -140,9 +126,14 @@ def update_password(profile: User) -> None:
     new_password = getpass('New password: ')
     confirm_password = getpass('Confirm password: ')
 
-    profile.update_password(old_password, new_password, confirm_password)
-
-    print('Password successfully updated.')
+    try:
+        profile.update_password(old_password, new_password, confirm_password)
+    except PasswordError as err:
+        print(err)
+    except ConfirmPasswordError as err:
+        print(err)
+    else:
+        print('Password successfully updated.')
 
 
 def sign_in() -> None:
@@ -161,24 +152,29 @@ def sign_in() -> None:
     username = input('Username: ')
     password = getpass('Password: ')
 
-    profile = User.get_profile(username)
-    profile.sign_in(password)
+    try:
+        profile = User.get_profile(username)
+        profile.sign_in(password)
+    except ExistsUserError as err:
+        print(err)
+    except SigninError as err:
+        print(err)
+    else:
+        print(f"Welcome Dear '{username}'")
 
-    print(f"Welcome '{username}'")
+        while True:
+            print('-- [1] Profile  [2] Edit profile [3] Change password [4] Logout --')
+            register_inp = input('Your choice is: ')
 
-    while True:
-        print('-- [1] Profile  [2] Edit profile [3] Change password [4] Logout --')
-        register_inp = input('Your choice is: ')
-
-        match register_inp:
-            case '1':
-                print(profile)
-            case '2':
-                update_profile(profile)
-            case '3':
-                update_password(profile)
-            case '4':
-                break
+            match register_inp:
+                case '1':
+                    print(profile)
+                case '2':
+                    update_profile(profile)
+                case '3':
+                    update_password(profile)
+                case '4':
+                    break
 
 
 def main() -> None:
