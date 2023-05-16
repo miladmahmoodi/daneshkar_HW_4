@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from utils import Utils
 from typing import Union
 from exceptions import *
+from messages import Message
 
 
 @dataclass
@@ -15,7 +16,7 @@ class User(Utils):
     """
     __profiles = {}
 
-    def __init__(self, username: str, phone_number: str, password: str):
+    def __init__(self, username: str, password: str, phone_number: str = None):
         self.id = Utils.id_generator()
         self.username = username
         self.phone_number = phone_number
@@ -32,7 +33,7 @@ class User(Utils):
         """
 
         if not User.exists_user(username):
-            raise ExistsUserError('Username does not exist.')
+            raise ExistsUserError(Message.NOT_EXIST_USER_MESSAGE)
 
         return User.__profiles[username]
 
@@ -67,11 +68,10 @@ class User(Utils):
         """
 
         if cls.exists_user(username):
-            raise ExistsUserError('This username already exists.')
+            raise ExistsUserError(Message.EXIST_USER_MESSAGE)
 
         if not Utils.check_password(password):
-            raise PasswordError('Wrong password!')
-
+            raise PasswordError(Message.WRONG_PASSWORD)
         profile = cls(
             username,
             phone_number,
@@ -80,7 +80,7 @@ class User(Utils):
         profile.save()
 
         if not cls.exists_user(username):
-            return Exception('Somethings was wrong.')
+            return Exception(Message.SOMETHING_WRONG)
 
         return profile
 
@@ -96,7 +96,7 @@ class User(Utils):
         password = Utils.hashing_password(password)
 
         if self.__password != password:
-            raise SigninError('username or password is wrong.')
+            raise SigninError(Message.WRONG_USERNAME_PASSWORD)
 
         return self
 
@@ -110,7 +110,7 @@ class User(Utils):
         """
 
         if type(self).exists_user(username):
-            raise ExistsUserError('This username already exists.')
+            raise ExistsUserError(Message.EXIST_USER_MESSAGE)
 
         old_username = self.username
         del type(self).__profiles[old_username]
@@ -146,14 +146,13 @@ class User(Utils):
         old_password = Utils.hashing_password(old_password)
 
         if self.__password != old_password:
-            raise PasswordError('Wrong password!')
+            raise PasswordError(Message.WRONG_PASSWORD)
 
         if not Utils.is_valid_password(new_password):
-            raise PasswordError('The password must contain uppercase and lowercase letters, numbers and special symbols'
-                                ' and must have at least 4 characters.')
+            raise PasswordError(Message.WHAT_PASSWORD)
 
         if not Utils.match_password(new_password, confirm_password):
-            raise ConfirmPasswordError('Password does`n match.')
+            raise ConfirmPasswordError(Message.NOT_MATCH_PASSWORD)
 
         self.__password = Utils.check_password(new_password)
 
