@@ -84,3 +84,14 @@ class Utils:
         """
 
         return password == other
+
+    @staticmethod
+    def validate_phone_number(phone_number: str) -> bool:
+        """
+        Validates an Iranian mobile phone number.
+
+        :param phone_number: str, the phone number to validate
+        :return: bool, True if the phone number is valid, False otherwise
+        """
+        pattern = re.compile(r"^(\+98|0)?9\d{9}$")
+        return bool(re.match(pattern, phone_number))
