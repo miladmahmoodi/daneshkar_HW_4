@@ -77,10 +77,14 @@ def update_phone_number(profile: 'User') -> 'User':
     print(Message.EDIT_PHONE_NUMBER_TITLE_PROMPT)
     new_phone_number = input(Message.NEW_PHONE_NUMBER_INPUT_PROMPT)
     if profile.phone_number != new_phone_number:
-        profile.update_phone_number(
-            new_phone_number,
-        )
-        print(Message.SUCCESS_UPDATE_PHONE_NUMBER_MESSAGE)
+        try:
+            profile.update_phone_number(
+                new_phone_number,
+            )
+        except WrongPhoneNumber as err:
+            print(err)
+        else:
+            print(Message.SUCCESS_UPDATE_PHONE_NUMBER_MESSAGE)
     else:
         print(Message.NOT_CHANGE_PHONE_NUMBER_MESSAGE)
 
