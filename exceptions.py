@@ -10,6 +10,13 @@ class ExistsUserError(Exception):
     pass
 
 
+class NotExistsUserError(Exception):
+    """
+    Raised when a user with the given username does not exist.
+    """
+    pass
+
+
 class SigninError(Exception):
     """
     Raised when there is an error during the sign-in process.
@@ -29,4 +36,3 @@ class ConfirmPasswordError(Exception):
     Raised when the passwords don`t match.
     """
     pass
-

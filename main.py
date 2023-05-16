@@ -102,11 +102,7 @@ def sign_in() -> None:
     username = input('Username: ')
     password = getpass('Password: ')
 
-    if not User.exists_user(username):
-        raise SigninError('username or password is wrong.')
-
-    profile = User.profiles.get(username)
-
+    profile = User.get_profile(username)
     profile.sign_in(password)
 
     print(f"Welcome '{username}'")

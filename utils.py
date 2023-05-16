@@ -2,7 +2,7 @@
 This module is used for User module utilities.
 """
 
-import json, re
+import re
 
 from uuid import uuid4
 from hashlib import sha256
