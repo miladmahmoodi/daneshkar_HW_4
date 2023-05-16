@@ -87,7 +87,7 @@ class Utils:
         return password == other
 
     @staticmethod
-    def validate_phone_number(phone_number: str) -> str | None:
+    def valid_phone_number(phone_number: str | None) -> bool:
         """
         Validates an Iranian mobile phone number.
 
@@ -95,6 +95,20 @@ class Utils:
         :return: bool, True if the phone number is valid, False otherwise
         """
         pattern = r"^(\+98|0)?9\d{9}$"
-        if re.match(pattern, phone_number):
-            return phone_number
-        return None
+        return bool(re.match(pattern, phone_number))
+
+    @staticmethod
+    def check_phone_number(phone_number: str | None):
+        """
+        Check the validity of a phone number and return it if it is valid.
+
+        :param phone_number: str or None, the phone number to validate
+        :return: str, the validated phone number
+        :raises: WrongPhoneNumber, if the phone number is not valid
+        """
+
+        if not Utils.valid_phone_number(phone_number):
+            raise WrongPhoneNumber(Message.WRONG_PHONE_NUMBER)
+        elif phone_number is None and phone_number == '':
+            return ''
+        return phone_number
