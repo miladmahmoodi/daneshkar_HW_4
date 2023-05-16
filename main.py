@@ -56,6 +56,8 @@ def update_username(profile: 'User') -> 'User':
             )
         except ExistsUserError as err:
             print(err)
+        except WrongUserName as err:
+            print(err)
         else:
             print(Message.SUCCESS_USERNAME_UPDATE_MESSAGE)
     else:
