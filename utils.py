@@ -7,6 +7,7 @@ import re
 from uuid import uuid4
 from hashlib import sha256
 from exceptions import *
+from messages import Message
 
 
 class Utils:
@@ -33,8 +34,7 @@ class Utils:
         """
 
         if not Utils.is_valid_password(password):
-            raise PasswordError('The password must contain uppercase and lowercase letters, numbers and special symbols'
-                            ' and must have at least 4 characters.')
+            raise PasswordError(Message.WHAT_PASSWORD)
         return Utils.hashing_password(password)
 
     @staticmethod
