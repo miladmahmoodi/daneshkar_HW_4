@@ -113,6 +113,8 @@ class User(Utils):
         :return: The instance of User.
         :raises ValueError: If the given username already exists.
         """
+        if username in ['', ' ']:
+            raise WrongUserName(Message.WRONG_USERNAME)
 
         if type(self).exists_user(username):
             raise ExistsUserError(Message.EXIST_USER_MESSAGE)
