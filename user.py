@@ -4,7 +4,6 @@ This module create for manage users.
 
 from dataclasses import dataclass
 from utils import Utils
-from typing import Union
 from exceptions import *
 from messages import Message
 
@@ -57,7 +56,7 @@ class User(Utils):
         return username in User.__profiles
 
     @classmethod
-    def create(cls, username: str, phone_number: str, password: str) -> Union['User', Exception]:
+    def create(cls, username: str, phone_number: str, password: str) -> 'User':
         """
         Create a new user profile with the given username, phone_number, and password.
 
@@ -70,17 +69,15 @@ class User(Utils):
         if cls.exists_user(username):
             raise ExistsUserError(Message.EXIST_USER_MESSAGE)
 
-        if not Utils.check_password(password):
-            raise PasswordError(Message.WRONG_PASSWORD)
         profile = cls(
             username,
-            phone_number,
-            password
+            password,
+            phone_number=phone_number,
         )
         profile.save()
 
         if not cls.exists_user(username):
-            return Exception(Message.SOMETHING_WRONG)
+            return NotExistsUserError(Message.SOMETHING_WRONG)
 
         return profile
 
@@ -164,7 +161,7 @@ class User(Utils):
 
         :return: A string representing the User object.
         """
-        return f"----------------------------------------------------------------------\n" \
+        return f"\033[95m----------------------------------------------------------------------\n" \
                f"Hi dear '{self.username}'. Hope you are well :)\n" \
                f"Your id is '{self.id}' and your phone number is '{self.phone_number}'\n" \
-               f"----------------------------------------------------------------------"
+               f"----------------------------------------------------------------------\033[00m"
