@@ -5,6 +5,7 @@ This module use for User module menu.
 from user import User
 from exceptions import *
 from getpass import getpass
+from messages import Message
 
 
 def sign_up():
@@ -18,10 +19,10 @@ def sign_up():
     :return: Success message or Error message.
     """
 
-    print('-- Welcome to signup form. --')
-    username = input('Your username: ')
-    phone_number = input('Your phone number: ')
-    password = getpass('Your password: ')
+    print(Message.SIGNUP_TITLE_PROMPT)
+    username = input(Message.USERNAME_INPUT_PROMPT)
+    phone_number = input(Message.PHONE_NUMBER_INPUT_PROMPT)
+    password = getpass(Message.PASSWORD_INPUT_PROMPT)
 
     try:
         User.create(
@@ -34,7 +35,7 @@ def sign_up():
     except PasswordError as err:
         print(err)
     else:
-        print(f"User '{username}' created successfully.")
+        print(Message.success_signup(username))
 
 
 def update_username(profile: 'User') -> 'User':
@@ -46,8 +47,8 @@ def update_username(profile: 'User') -> 'User':
     :param profile: A User object representing the user profile to be updated.
     :return: The instance of User.
     """
-    print('-- Edit username --')
-    new_username = input('New username: ')
+    print(Message.EDIT_USERNAME_TITLE_PROMPT)
+    new_username = input(Message.NEW_USERNAME_INPUT_PROMPT)
     if profile.username != new_username:
         try:
             profile.update_username(
@@ -56,9 +57,9 @@ def update_username(profile: 'User') -> 'User':
         except ExistsUserError as err:
             print(err)
         else:
-            print('Username updated successfully.')
+            print(Message.SUCCESS_USERNAME_UPDATE_MESSAGE)
     else:
-        print('You don`t change your username.')
+        print(Message.NOT_CHANGE_USERNAME_MESSAGE)
 
     return profile
 
@@ -73,15 +74,15 @@ def update_phone_number(profile: 'User') -> 'User':
     :return: The instance of User.
     """
 
-    print('-- Edit phone number --')
-    new_phone_number = input('New phone number: ')
+    print(Message.EDIT_PHONE_NUMBER_TITLE_PROMPT)
+    new_phone_number = input(Message.NEW_PHONE_NUMBER_INPUT_PROMPT)
     if profile.phone_number != new_phone_number:
         profile.update_phone_number(
             new_phone_number,
         )
-        print('phone number updated successfully.')
+        print(Message.SUCCESS_UPDATE_PHONE_NUMBER_MESSAGE)
     else:
-        print('You don`t change your phone number.')
+        print(Message.NOT_CHANGE_PHONE_NUMBER_MESSAGE)
 
     return profile
 
@@ -96,8 +97,8 @@ def update_profile(profile: User) -> None:
     :return: None.
     """
     while True:
-        print('-- [0] Cancel [1] Edit username  [2] Edit phone number --')
-        edit_inp = input('Your choice is: ')
+        print(Message.MENU_EDIT_PROFILE_PROMPT)
+        edit_inp = input(Message.MENU_EDIT_SELECTED_ITEM_INPUT_PROMPT)
 
         match edit_inp:
             case '0':
@@ -121,10 +122,10 @@ def update_password(profile: User) -> None:
     :return: None.
     """
 
-    print('-- Change password --')
-    old_password = getpass('Old password: ')
-    new_password = getpass('New password: ')
-    confirm_password = getpass('Confirm password: ')
+    print(Message.EDIT_PASSWORD_TITLE_PROMPT)
+    old_password = getpass(Message.EDIT_OLD_PASSWORD_INPUT_PROMPT)
+    new_password = getpass(Message.EDIT_NEW_PASSWORD_INPUT_PROMPT)
+    confirm_password = getpass(Message.EDIT_CONFIRM_PASSWORD_INPUT_PROMPT)
 
     try:
         profile.update_password(old_password, new_password, confirm_password)
@@ -133,7 +134,7 @@ def update_password(profile: User) -> None:
     except ConfirmPasswordError as err:
         print(err)
     else:
-        print('Password successfully updated.')
+        print(Message.SUCCESS_PASSWORD_UPDATE_MESSAGE)
 
 
 def sign_in() -> None:
@@ -148,9 +149,9 @@ def sign_in() -> None:
     :return: None.
     """
 
-    print('-- Welcome to signin form. --')
-    username = input('Username: ')
-    password = getpass('Password: ')
+    print(Message.SIGNIN_TITLE_PROMPT)
+    username = input(Message.SIGNIN_USERNAME_INPUT_PROMPT)
+    password = getpass(Message.SIGNIN_PASSWORD_INPUT_PROMPT)
 
     try:
         profile = User.get_profile(username)
@@ -160,11 +161,11 @@ def sign_in() -> None:
     except SigninError as err:
         print(err)
     else:
-        print(f"Welcome Dear '{username}'")
+        print(Message.welcome_user_message(username))
 
         while True:
-            print('-- [1] Profile  [2] Edit profile [3] Change password [4] Logout --')
-            register_inp = input('Your choice is: ')
+            print(Message.MENU_SIGNIN_PROMPT)
+            register_inp = input(Message.MENU_SIGNIN_SELECTED_ITEM_PROMPT)
 
             match register_inp:
                 case '1':
@@ -189,8 +190,8 @@ def main() -> None:
     """
 
     while True:
-        print('-- [0] End process  [1] Signup  [2] Signin --')
-        inp = input('Your choice is: ')
+        print(Message.MENU_MAIN_PROMPT)
+        inp = input(Message.MENU_MAIN_SELECTED_PROMPT)
         match inp:
             case '0':
                 break
