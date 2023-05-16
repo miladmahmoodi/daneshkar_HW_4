@@ -43,3 +43,10 @@ class WrongPhoneNumber(Exception):
     Raised when the phone number don`t match with regex.
     """
     pass
+
+
+class WrongUserName(Exception):
+    """
+    Raised when the username empty or null.
+    """
+    pass
