@@ -36,3 +36,10 @@ class ConfirmPasswordError(Exception):
     Raised when the passwords don`t match.
     """
     pass
+
+
+class WrongPhoneNumber(Exception):
+    """
+    Raised when the phone number don`t match with regex.
+    """
+    pass
