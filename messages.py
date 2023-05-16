@@ -46,6 +46,9 @@ class Message:
     WRONG_PHONE_NUMBER = "\033[91m{}\033[00m" .format(
         'phone number format is wrong.'
     )
+    WRONG_USERNAME = "\033[91m{}\033[00m" .format(
+        'Username is wrong.'
+    )
 
     @staticmethod
     def welcome_user_message(username: str) -> str:
