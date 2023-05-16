@@ -21,23 +21,6 @@ class User(Utils):
         self.phone_number = phone_number
         self.__password = Utils.check_password(password)
 
-    # @property
-    # def password(self) -> str:
-    #     """
-    #     This function is password getter because password is a private variable.
-    #     """
-    #     return self.__password
-    #
-    # @password.setter
-    # def password(self, password: str) -> None:
-    #     """
-    #     Get the password of the user.
-    #
-    #     :return: A string representing the password.
-    #     """
-    #
-    #     self.__password = self.check_password(password)
-
     @staticmethod
     def get_profile(username: str) -> 'User':
         """
@@ -117,12 +100,11 @@ class User(Utils):
 
         return self
 
-    def update(self, username: str, phone_number: str) -> 'User':
+    def update_username(self, username: str) -> 'User':
         """
-        Update the username and phone number of the user.
+        Update the username of the user.
 
         :param username: A string representing the new username.
-        :param phone_number: A string representing the new phone number.
         :return: The instance of User.
         :raises ValueError: If the given username already exists.
         """
@@ -134,8 +116,19 @@ class User(Utils):
         del type(self).__profiles[old_username]
 
         self.username = username
-        self.phone_number = phone_number
         type(self).__profiles[username] = self
+
+        return self
+
+    def update_phone_number(self, phone_number: str) -> 'User':
+        """
+        Update the phone number of the user.
+
+        :param phone_number: A string representing the new phone_number.
+        :return: The instance of User.
+        """
+
+        self.phone_number = phone_number
 
         return self
 
