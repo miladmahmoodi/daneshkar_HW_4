@@ -15,11 +15,19 @@ class User(Utils):
     """
     __profiles = {}
 
-    def __init__(self, username: str, password: str, phone_number: str = None):
+    def __init__(self, username: str, password: str, phone_number: str | None = None):
         self.id = Utils.id_generator()
         self.username = username
-        self.phone_number = phone_number
+        self._phone_number = phone_number
         self.__password = Utils.check_password(password)
+
+    @property
+    def phone_number(self):
+        return self._phone_number
+
+    @phone_number.setter
+    def phone_number(self, phone_number):
+        self._phone_number = Utils.check_phone_number(phone_number)
 
     @staticmethod
     def get_profile(username: str) -> 'User':
