@@ -54,9 +54,10 @@ class Utils:
         """
 
         pattern = r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{4,}$"
-        if re.match(pattern, password):
-            return True
-        return False
+        return bool(re.match(
+            pattern,
+            password,
+        ))
 
     @staticmethod
     def hashing_password(password: str) -> str:
