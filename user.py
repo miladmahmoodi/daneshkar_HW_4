@@ -23,10 +23,22 @@ class User(Utils):
 
     @property
     def phone_number(self):
+        """
+        Return the phone number.
+
+        :return: str, the phone number.
+        """
         return self._phone_number
 
     @phone_number.setter
     def phone_number(self, phone_number):
+        """
+        Set the phone number after validation.
+
+        :param phone_number: str, the phone number to validate and set.
+        :raises: WrongPhoneNumber, if the phone number is not valid.
+        """
+
         self._phone_number = Utils.check_phone_number(phone_number)
 
     @staticmethod
@@ -46,7 +58,7 @@ class User(Utils):
 
     def save(self) -> None:
         """
-        Saves the user profile to the class variable `User.profiles` under the username key.
+        Saves the user profile to the class private variable `profiles` with the username key.
 
         :return: None
         """
@@ -144,7 +156,7 @@ class User(Utils):
         """
         Update the password of the user.
 
-        :param profile: A instance of User class.
+        :param profile: An instance of User class.
         :param old_password: A string representing the old password.
         :param new_password: A string representing the new password.
         :param confirm_password: A string representing the new password confirmation.
