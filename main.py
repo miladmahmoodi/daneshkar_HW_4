@@ -32,6 +32,8 @@ def sign_up():
             phone_number,
             password,
         )
+    except WrongUserName as err:
+        print(err)
     except ExistsUserError as err:
         print(err)
     except NotExistsUserError as err:
