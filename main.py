@@ -32,6 +32,8 @@ def sign_up():
         )
     except ExistsUserError as err:
         print(err)
+    except NotExistsUserError as err:
+        print(err)
     except PasswordError as err:
         print(err)
     else:
@@ -134,7 +136,12 @@ def update_password(profile: User) -> None:
     confirm_password = getpass(Message.EDIT_CONFIRM_PASSWORD_INPUT_PROMPT)
 
     try:
-        profile.update_password(old_password, new_password, confirm_password)
+        User.update_password(
+            profile,
+            old_password,
+            new_password,
+            confirm_password
+        )
     except PasswordError as err:
         print(err)
     except ConfirmPasswordError as err:
