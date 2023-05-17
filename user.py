@@ -156,7 +156,7 @@ class User(Utils):
         """
         Update the password of the user.
 
-        :param profile: An instance of User class.
+        :param profile: A User object.
         :param old_password: A string representing the old password.
         :param new_password: A string representing the new password.
         :param confirm_password: A string representing the new password confirmation.
