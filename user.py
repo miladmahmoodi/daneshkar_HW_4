@@ -56,13 +56,14 @@ class User(Utils):
 
         return User.__profiles[username]
 
-    def save(self) -> None:
+    def save(self) -> 'User':
         """
         Saves the user profile to the class private variable `profiles` with the username key.
 
         :return: None
         """
         type(self).__profiles[self.username] = self
+        return self
 
     @staticmethod
     def exists_user(username: str) -> bool:
@@ -93,8 +94,7 @@ class User(Utils):
             username,
             password,
             phone_number=phone_number,
-        )
-        profile.save()
+        ).save()
 
         if not cls.exists_user(username):
             return NotExistsUserError(Message.SOMETHING_WRONG)
