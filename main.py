@@ -3,9 +3,9 @@ This module use for User module menu.
 """
 
 from user import User
-from exceptions import *
+from utils.exceptions import *
 from getpass import getpass
-from messages import Message
+from utils.messages import Message
 
 
 def sign_up():
