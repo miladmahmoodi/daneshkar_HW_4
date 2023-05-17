@@ -6,13 +6,11 @@ This module create for manage users.
 
 import re
 
-from dataclasses import dataclass
 from utils.user_utils import Utils
 from utils.exceptions import *
 from utils.messages import Message
 
 
-@dataclass
 class User:
     """
     A class used to represent User.
