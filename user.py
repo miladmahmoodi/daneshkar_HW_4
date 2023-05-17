@@ -13,7 +13,7 @@ from utils.messages import Message
 
 
 @dataclass
-class User(Utils):
+class User:
     """
     A class used to represent User.
     """
