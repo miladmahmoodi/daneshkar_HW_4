@@ -25,89 +25,6 @@ class User(Utils):
         self._phone_number = phone_number
         self.__password = Utils.check_password(password)
 
-    @property
-    def phone_number(self):
-        """
-        Return the phone number.
-
-        :return: str, the phone number.
-        """
-        return self._phone_number
-
-    @phone_number.setter
-    def phone_number(self, phone_number):
-        """
-        Set the phone number after validation.
-
-        :param phone_number: str, the phone number to validate and set.
-        :raises: WrongPhoneNumber, if the phone number is not valid.
-        """
-
-        self._phone_number = Utils.check_phone_number(phone_number)
-
-    @staticmethod
-    def get_profile(username: str) -> 'User':
-        """
-        Returns the profile of the user with the given username.
-
-        :param username: str, the username of the user.
-        :return: the profile of the user.
-        :raises: ExistsUserError, if the user with the given username does not exist.
-        """
-
-        if not User.exists_user(username):
-            raise ExistsUserError(Message.NOT_EXIST_USER_MESSAGE)
-
-        return User.__profiles[username]
-
-    def save(self) -> 'User':
-        """
-        Saves the user profile to the class private variable `profiles` with the username key.
-
-        :return: None
-        """
-        type(self).__profiles[self.username] = self
-        return self
-
-    @staticmethod
-    def exists_user(username: str) -> bool:
-        """
-        Check whether the given username exists in the profiles list.
-
-        :param username: A string representing the username to be checked.
-        :return: True if the username exists in the profiles list, False otherwise.
-        """
-
-        return username in User.__profiles
-
-    @classmethod
-    def create(cls, username: str, phone_number: str, password: str) -> 'User':
-        """
-        Create a new user profile with the given username, phone_number, and password.
-
-        :param username: A string representing the username.
-        :param phone_number: A string representing the phone number.
-        :param password: A string representing the password.
-        :return: If the input is valid, return a new instance of User. Otherwise, return an Exception object.
-        """
-
-        if not cls.is_valid_username(username):
-            raise WrongUserName(Message.WRONG_USERNAME)
-
-        if cls.exists_user(username):
-            raise ExistsUserError(Message.EXIST_USER_MESSAGE)
-
-        profile = cls(
-            username,
-            password,
-            phone_number=phone_number,
-        ).save()
-
-        if not cls.exists_user(username):
-            return NotExistsUserError(Message.SOMETHING_WRONG)
-
-        return profile
-
     def sign_in(self, password: str) -> 'User':
         """
         Sign in the user with the given password.
@@ -158,6 +75,61 @@ class User(Utils):
 
         return self
 
+    def save(self) -> 'User':
+        """
+        Saves the user profile to the class private variable `profiles` with the username key.
+
+        :return: None
+        """
+        type(self).__profiles[self.username] = self
+        return self
+
+    @property
+    def phone_number(self):
+        """
+        Return the phone number.
+
+        :return: str, the phone number.
+        """
+        return self._phone_number
+
+    @phone_number.setter
+    def phone_number(self, phone_number):
+        """
+        Set the phone number after validation.
+
+        :param phone_number: str, the phone number to validate and set.
+        :raises: WrongPhoneNumber, if the phone number is not valid.
+        """
+
+        self._phone_number = Utils.check_phone_number(phone_number)
+
+    @staticmethod
+    def get_profile(username: str) -> 'User':
+        """
+        Returns the profile of the user with the given username.
+
+        :param username: str, the username of the user.
+        :return: the profile of the user.
+        :raises: ExistsUserError, if the user with the given username does not exist.
+        """
+
+        if not User.exists_user(username):
+            raise ExistsUserError(Message.NOT_EXIST_USER_MESSAGE)
+
+        return User.__profiles[username]
+
+    @staticmethod
+    def exists_user(username: str) -> bool:
+        """
+        Check whether the given username exists in the profiles list.
+
+        :param username: A string representing the username to be checked.
+        :return: True if the username exists in the profiles list, False otherwise.
+        """
+
+        return username in User.__profiles
+
     @staticmethod
     def update_password(profile, old_password: str, new_password: str, confirm_password: str) -> 'User':
         """
@@ -197,6 +169,34 @@ class User(Utils):
 
         pattern = r"^[a-zA-Z]{1}[a-zA-Z0-9]{2,}$"
         return bool(re.match(pattern, username))
+
+    @classmethod
+    def create(cls, username: str, phone_number: str, password: str) -> 'User':
+        """
+        Create a new user profile with the given username, phone_number, and password.
+
+        :param username: A string representing the username.
+        :param phone_number: A string representing the phone number.
+        :param password: A string representing the password.
+        :return: If the input is valid, return a new instance of User. Otherwise, return an Exception object.
+        """
+
+        if not cls.is_valid_username(username):
+            raise WrongUserName(Message.WRONG_USERNAME)
+
+        if cls.exists_user(username):
+            raise ExistsUserError(Message.EXIST_USER_MESSAGE)
+
+        profile = cls(
+            username,
+            password,
+            phone_number=phone_number,
+        ).save()
+
+        if not cls.exists_user(username):
+            return NotExistsUserError(Message.SOMETHING_WRONG)
+
+        return profile
 
     def __str__(self) -> str:
         """
