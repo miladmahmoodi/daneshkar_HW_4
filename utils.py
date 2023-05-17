@@ -75,18 +75,6 @@ class Utils:
         return hash_pass
 
     @staticmethod
-    def match_password(password: str, other: str) -> bool:
-        """
-        Check whether the given password and other match or not.
-
-        :param password: A string representing the first password.
-        :param other: A string representing the second password to compare with the first one.
-        :return: True if the passwords match, False otherwise.
-        """
-
-        return password == other
-
-    @staticmethod
     def valid_phone_number(phone_number: str | None) -> bool:
         """
         Validates an Iranian mobile phone number.
