@@ -7,7 +7,7 @@ import re
 from uuid import uuid4
 from hashlib import sha256
 from utils.exceptions import *
-from messages import Message
+from .messages import Message
 
 
 class Utils:
