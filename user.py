@@ -3,9 +3,9 @@ This module create for manage users.
 """
 
 from dataclasses import dataclass
-from utils import Utils
-from exceptions import *
-from messages import Message
+from utils.user_utils import Utils
+from utils.exceptions import *
+from utils.messages import Message
 
 
 @dataclass
