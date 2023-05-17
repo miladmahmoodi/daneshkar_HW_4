@@ -10,7 +10,7 @@ from messages import Message
 
 def sign_up():
     """
-    Display a form for signing up a new user.
+    Display a form for signup a new user.
 
     The function prompts the user to enter their username, phone number, and password.
     Once the information is provided, the function calls the 'create' method of the 'User' class to create a new user.
