@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 class Message:
     """
     A class that contains various messages used in different parts of the program.

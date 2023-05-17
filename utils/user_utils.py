@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 """
 This module is used for User module utilities.
 """
@@ -100,3 +102,4 @@ class Utils:
         elif phone_number is None and phone_number == '':
             return ''
         return phone_number
+

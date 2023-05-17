@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 """
 This module defines custom exception classes for a user authentication system.
 """
