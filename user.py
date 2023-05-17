@@ -4,6 +4,8 @@
 This module create for manage users.
 """
 
+import re
+
 from dataclasses import dataclass
 from utils.user_utils import Utils
 from utils.exceptions import *
@@ -89,6 +91,9 @@ class User(Utils):
         :return: If the input is valid, return a new instance of User. Otherwise, return an Exception object.
         """
 
+        if not cls.is_valid_username(username):
+            raise WrongUserName(Message.WRONG_USERNAME)
+
         if cls.exists_user(username):
             raise ExistsUserError(Message.EXIST_USER_MESSAGE)
 
@@ -127,7 +132,7 @@ class User(Utils):
         :return: The instance of User.
         :raises ValueError: If the given username already exists.
         """
-        if username in ['', ' ']:
+        if not type(self).is_valid_username(username):
             raise WrongUserName(Message.WRONG_USERNAME)
 
         if type(self).exists_user(username):
@@ -178,6 +183,20 @@ class User(Utils):
         profile.__password = Utils.check_password(new_password)
 
         return profile
+
+    @staticmethod
+    def is_valid_username(username: str) -> bool:
+        """
+        Check if a username is valid. A valid username must start with a letter, be at least 3 characters long, and can
+        only contain letters and numbers.
+
+        param: username: A string representing the username to be validated.
+        return: A boolean value indicating whether the username is valid or not.
+        raises: ValueError: If the username is invalid.
+        """
+
+        pattern = r"^[a-zA-Z]{1}[a-zA-Z0-9]{2,}$"
+        return bool(re.match(pattern, username))
 
     def __str__(self) -> str:
         """
