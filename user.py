@@ -126,12 +126,10 @@ class User:
 
         return username in User.__profiles
 
-    @staticmethod
-    def update_password(profile, old_password: str, new_password: str, confirm_password: str) -> 'User':
+    def update_password(self, old_password: str, new_password: str, confirm_password: str) -> 'User':
         """
         Update the password of the user.
 
-        :param profile: A User object.
         :param old_password: A string representing the old password.
         :param new_password: A string representing the new password.
         :param confirm_password: A string representing the new password confirmation.
@@ -142,15 +140,15 @@ class User:
 
         old_password = Utils.hashing_password(old_password)
 
-        if profile.__password != old_password:
+        if self.__password != old_password:
             raise PasswordError(Message.WRONG_PASSWORD)
 
         if new_password != confirm_password:
             raise ConfirmPasswordError(Message.NOT_MATCH_PASSWORD)
 
-        profile.__password = Utils.check_password(new_password)
+        self.__password = Utils.check_password(new_password)
 
-        return profile
+        return self
 
     @classmethod
     def create(cls, username: str, phone_number: str, password: str) -> 'User':
