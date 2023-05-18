@@ -103,3 +103,17 @@ class Utils:
             return ''
         return phone_number
 
+    @staticmethod
+    def is_valid_username(username: str) -> bool:
+        """
+        Check if a username is valid. A valid username must start with a letter, be at least 3 characters long, and can
+        only contain letters and numbers.
+
+        param: username: A string representing the username to be validated.
+        return: A boolean value indicating whether the username is valid or not.
+        raises: ValueError: If the username is invalid.
+        """
+
+        pattern = r"^[a-zA-Z]{1}[a-zA-Z0-9]{2,}$"
+        return bool(re.match(pattern, username))
+
