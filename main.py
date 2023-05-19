@@ -55,19 +55,19 @@ def update_username(profile: 'User') -> 'User':
     """
     print(Message.EDIT_USERNAME_TITLE_PROMPT)
     new_username = input(Message.NEW_USERNAME_INPUT_PROMPT)
-    if profile.username != new_username:
-        try:
-            profile.update_username(
-                new_username,
-            )
-        except ExistsUserError as err:
-            print(err)
-        except WrongUserName as err:
-            print(err)
-        else:
-            print(Message.SUCCESS_USERNAME_UPDATE_MESSAGE)
+
+    try:
+        profile.update_username(
+            new_username,
+        )
+    except NotChangeUsername as err:
+        print(err)
+    except ExistsUserError as err:
+        print(err)
+    except WrongUserName as err:
+        print(err)
     else:
-        print(Message.NOT_CHANGE_USERNAME_MESSAGE)
+        print(Message.SUCCESS_USERNAME_UPDATE_MESSAGE)
 
     return profile
 
