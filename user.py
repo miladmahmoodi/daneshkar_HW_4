@@ -18,8 +18,8 @@ class User:
     def __init__(self, username: str, password: str, phone_number: str | None = None):
         self.id = Utils.id_generator()
         self.username = username
-        self._phone_number = phone_number
-        self.__password = Utils.check_password(password)
+        self.phone_number = phone_number
+        self.__password = password
 
     def sign_in(self, password: str) -> 'User':
         """
@@ -78,26 +78,6 @@ class User:
         """
         type(self).__profiles[self.username] = self
         return self
-
-    @property
-    def phone_number(self):
-        """
-        Return the phone number.
-
-        :return: str, the phone number.
-        """
-        return self._phone_number
-
-    @phone_number.setter
-    def phone_number(self, phone_number):
-        """
-        Set the phone number after validation.
-
-        :param phone_number: str, the phone number to validate and set.
-        :raises: WrongPhoneNumber, if the phone number is not valid.
-        """
-
-        self._phone_number = Utils.check_phone_number(phone_number)
 
     @staticmethod
     def check_username(username: str) -> str:
