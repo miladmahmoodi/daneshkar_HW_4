@@ -52,3 +52,10 @@ class WrongUserName(Exception):
     Raised when the username empty or null.
     """
     pass
+
+
+class NotChangeUsername(Exception):
+    """
+    Raised when the username not changed.
+    """
+    pass

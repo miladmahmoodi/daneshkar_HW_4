@@ -45,11 +45,10 @@ class User:
         :return: The instance of User.
         :raises ValueError: If the given username already exists.
         """
-        if not Utils.is_valid_username(username):
-            raise WrongUserName(Message.WRONG_USERNAME)
+        if self.username == username:
+            raise NotChangeUsername(Message.NOT_CHANGE_USERNAME_MESSAGE)
 
-        if type(self).exists_user(username):
-            raise ExistsUserError(Message.EXIST_USER_MESSAGE)
+        username = type(self).check_username(username)
 
         old_username = self.username
         del type(self).__profiles[old_username]
