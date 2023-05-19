@@ -66,6 +66,8 @@ class User:
         :return: The instance of User.
         """
 
+        phone_number = Utils.check_phone_number(phone_number)
+
         self.phone_number = phone_number
 
         return self
