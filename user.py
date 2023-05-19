@@ -17,7 +17,7 @@ class User:
 
     def __init__(self, username: str, password: str, phone_number: str | None = None):
         self.id = Utils.id_generator()
-        self.username = username
+        self.__username = username
         self.phone_number = phone_number
         self.__password = password
 
@@ -45,15 +45,15 @@ class User:
         :return: The instance of User.
         :raises ValueError: If the given username already exists.
         """
-        if self.username == username:
+        if self.__username == username:
             raise NotChangeUsername(Message.NOT_CHANGE_USERNAME_MESSAGE)
 
         username = type(self).check_username(username)
 
-        old_username = self.username
+        old_username = self.__username
         del type(self).__profiles[old_username]
 
-        self.username = username
+        self.__username = username
         type(self).__profiles[username] = self
 
         return self
@@ -78,7 +78,7 @@ class User:
 
         :return: None
         """
-        type(self).__profiles[self.username] = self
+        type(self).__profiles[self.__username] = self
         return self
 
     @staticmethod
@@ -174,6 +174,6 @@ class User:
         :return: A string representing the User object.
         """
         return f"\033[95m----------------------------------------------------------------------\n" \
-               f"Hi dear '{self.username}'. Hope you are well :)\n" \
+               f"Hi dear '{self.__username}'. Hope you are well :)\n" \
                f"Your id is '{self.id}' and your phone number is '{self.phone_number}'\n" \
                f"----------------------------------------------------------------------\033[00m"
