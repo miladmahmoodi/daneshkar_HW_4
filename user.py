@@ -101,6 +101,16 @@ class User:
         self._phone_number = Utils.check_phone_number(phone_number)
 
     @staticmethod
+    def check_username(username: str) -> str:
+        if not Utils.is_valid_username(username):
+            raise WrongUserName(Message.WRONG_USERNAME)
+
+        if User.exists_user(username):
+            raise ExistsUserError(Message.EXIST_USER_MESSAGE)
+
+        return username
+
+    @staticmethod
     def get_profile(username: str) -> 'User':
         """
         Returns the profile of the user with the given username.
