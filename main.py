@@ -183,9 +183,9 @@ def sign_in() -> None:
 
         while True:
             print(Message.MENU_SIGNIN_PROMPT)
-            register_inp = input(Message.MENU_SIGNIN_SELECTED_ITEM_PROMPT)
+            signin_inp = input(Message.MENU_SIGNIN_SELECTED_ITEM_PROMPT)
 
-            match register_inp:
+            match signin_inp:
                 case '1':
                     print(profile)
                 case '2':
