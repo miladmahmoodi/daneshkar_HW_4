@@ -29,14 +29,16 @@ def sign_up():
     try:
         User.create(
             username,
-            phone_number,
             password,
+            phone_number=phone_number,
         )
     except WrongUserName as err:
         print(err)
     except ExistsUserError as err:
         print(err)
     except NotExistsUserError as err:
+        print(err)
+    except WrongPhoneNumber as err:
         print(err)
     except PasswordError as err:
         print(err)

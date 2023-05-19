@@ -84,7 +84,7 @@ class Utils:
         :param phone_number: str, the phone number to validate
         :return: bool, True if the phone number is valid, False otherwise
         """
-        pattern = r"^(\+98|0)?9\d{9}$"
+        pattern = r"^(?:\+98|0)?9[01239][0-9]{8}$"
         return bool(re.match(pattern, phone_number))
 
     @staticmethod

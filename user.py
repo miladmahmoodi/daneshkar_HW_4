@@ -140,7 +140,7 @@ class User:
         return self
 
     @classmethod
-    def create(cls, username: str, phone_number: str, password: str) -> 'User':
+    def create(cls, username: str, password: str, phone_number: str = None) -> 'User':
         """
         Create a new user profile with the given username, phone_number, and password.
 
@@ -152,6 +152,7 @@ class User:
 
         username = cls.check_username(username)
         password = Utils.check_password(password)
+        phone_number = Utils.check_phone_number(phone_number)
 
         profile = cls(
             username,
