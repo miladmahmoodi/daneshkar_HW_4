@@ -151,6 +151,7 @@ class User:
         """
 
         username = cls.check_username(username)
+        password = Utils.check_password(password)
 
         profile = cls(
             username,
