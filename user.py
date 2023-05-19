@@ -170,11 +170,7 @@ class User:
         :return: If the input is valid, return a new instance of User. Otherwise, return an Exception object.
         """
 
-        if not Utils.is_valid_username(username):
-            raise WrongUserName(Message.WRONG_USERNAME)
-
-        if cls.exists_user(username):
-            raise ExistsUserError(Message.EXIST_USER_MESSAGE)
+        username = cls.check_username(username)
 
         profile = cls(
             username,
