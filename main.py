@@ -140,8 +140,7 @@ def update_password(profile: User) -> None:
     confirm_password = getpass(Message.EDIT_CONFIRM_PASSWORD_INPUT_PROMPT)
 
     try:
-        User.update_password(
-            profile,
+        profile.update_password(
             old_password,
             new_password,
             confirm_password
