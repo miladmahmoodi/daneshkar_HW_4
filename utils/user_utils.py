@@ -97,10 +97,10 @@ class Utils:
         :raises: WrongPhoneNumber, if the phone number is not valid
         """
 
-        if not Utils.valid_phone_number(phone_number):
-            raise WrongPhoneNumber(Message.WRONG_PHONE_NUMBER)
-        elif phone_number is None and phone_number == '':
+        if phone_number is None or phone_number == '':
             return ''
+        elif not Utils.valid_phone_number(phone_number):
+            raise WrongPhoneNumber(Message.WRONG_PHONE_NUMBER)
         return phone_number
 
     @staticmethod
